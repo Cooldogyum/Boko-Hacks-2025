@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, session, url_for
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+
 from models.user import User
-from extensions import db
 
 login_bp = Blueprint("login", __name__)
+
 
 @login_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -20,9 +21,10 @@ def login():
 
     return render_template("login.html")
 
+
 @login_bp.route("/logout")
 def logout():
     session.pop("user", None)
-    session.pop('_flashes',None)
+    session.pop("_flashes", None)
     flash("You have been logged out.", "info")
     return redirect(url_for("login.login"))

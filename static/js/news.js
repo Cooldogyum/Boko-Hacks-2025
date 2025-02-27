@@ -18,7 +18,7 @@ function cleanupApp() {
 
 function setupEventListeners() {
     const newsContainer = document.getElementById('news-root');
-    
+
     // Event delegation for category buttons
     newsContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('filter-btn')) {
@@ -29,7 +29,7 @@ function setupEventListeners() {
                     btn.classList.remove('active');
                 });
                 e.target.classList.add('active');
-                
+
                 // Fetch news for the selected category
                 fetchNews(category);
             }
@@ -85,18 +85,18 @@ function setupEventListeners() {
 function fetchNews(category, customUrl = null) {
     const newsContainer = document.getElementById('news-root');
     const newsList = newsContainer.querySelector('.news-list');
-    
+
     // Show loading state
     newsList.innerHTML = '<div class="loading">Loading news feed...</div>';
-    
+
     // Build the API URL
     let apiUrl = `/apps/news/fetch?category=${category}`;
     if (customUrl) {
         apiUrl += `&api_url=${encodeURIComponent(customUrl)}`;
     }
-    
+
     console.log(`Fetching news from: ${apiUrl}`);
-    
+
     // Fetch news from the server
     fetch(apiUrl)
         .then(response => {
@@ -124,21 +124,21 @@ function fetchNews(category, customUrl = null) {
 function renderNews(data) {
     const newsContainer = document.getElementById('news-root');
     const newsList = newsContainer.querySelector('.news-list');
-    
+
     if (!data || !data.success || !data.data || data.data.length === 0) {
         newsList.innerHTML = '<div class="error-message">No news articles found.</div>';
         return;
     }
-    
-    const newsItems = data.data; 
-    
+
+    const newsItems = data.data;
+
     let html = '';
-    
+
     // Add each news item
     newsItems.forEach(item => {
         const date = new Date(item.date || new Date()).toLocaleDateString();
         const hasImage = item.imageUrl && item.imageUrl !== 'null';
-        
+
         html += `
             <div class="news-item">
                 <div class="news-title">${item.title}</div>
@@ -151,9 +151,9 @@ function renderNews(data) {
             </div>
         `;
     });
-    
+
     newsList.innerHTML = html;
-    
+
     // Update timestamp
     const updateTime = document.getElementById('update-time');
     if (updateTime) {
@@ -165,7 +165,7 @@ function updateDebugInfo(data) {
     const debugOutput = document.getElementById('debug-output');
     if (debugOutput) {
         debugOutput.style.display = 'block';
-        
+
         // Format the data for display
         let debugText = '';
         if (data.error) {
@@ -182,7 +182,7 @@ function updateDebugInfo(data) {
             }
             debugText = 'API Response:\n' + JSON.stringify(simplifiedData, null, 2);
         }
-        
+
         debugOutput.textContent = debugText;
     }
 }
@@ -190,10 +190,10 @@ function updateDebugInfo(data) {
 function fetchSourceDetails() {
     const sourceId = document.getElementById('source-id').value.trim();
     const sourceDetails = document.getElementById('source-details');
-    
+
     sourceDetails.innerHTML = '<div class="loading">Loading source details...</div>';
     sourceDetails.style.display = 'block';
-    
+
     fetch(`/apps/news/admin/fetch_source?id=${sourceId}`)
         .then(response => response.json())
         .then(data => {
@@ -214,10 +214,10 @@ function importNewsData() {
         alert('Please enter base64 encoded data');
         return;
     }
-    
+
     const formData = new FormData();
     formData.append('data', importData);
-    
+
     fetch('/apps/news/import', {
         method: 'POST',
         body: formData
@@ -237,7 +237,7 @@ function importNewsData() {
 
 function generateExamplePicklePayload() {
     const payload = "KGRwMApTJ2V4YW1wbGUnCnAxClMndGVzdCBwYXlsb2FkJwpwMgpzLg==";
-    
+
     navigator.clipboard.writeText(payload)
         .then(() => {
             alert("Example payload copied to clipboard! Use it in the Import field.");

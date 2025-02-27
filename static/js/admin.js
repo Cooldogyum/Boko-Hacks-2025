@@ -1,6 +1,6 @@
 function initializeApp() {
     const adminContainer = document.getElementById('app-container');
-    
+
     adminContainer.innerHTML = `
         <div class="admin-container">
             <div id="message-area"></div>
@@ -18,22 +18,22 @@ function initializeApp() {
                     <button type="submit" class="admin-btn">Login</button>
                 </form>
             </div>
-            
+
             <div id="admin-panel" style="display: none;">
                 <div class="admin-header">
                     <div class="user-greeting">Hello <span id="admin-username-display"></span></div>
                     <button id="logout-button" class="small-btn">Logout</button>
                 </div>
-                
+
                 <p class="section-desc">Manage users and administrative access</p>
-                
+
                 <!-- User Management Section -->
                 <h3>User Management</h3>
-                
+
                 <div class="user-actions">
                     <button id="show-add-user" class="action-btn">+ Add User</button>
                 </div>
-                
+
                 <div id="add-user-form-container" style="display: none;" class="add-user-section">
                     <div class="form-inline">
                         <input type="text" id="new-username" placeholder="Username">
@@ -42,18 +42,18 @@ function initializeApp() {
                         <button id="cancel-add-user" class="action-btn">Cancel</button>
                     </div>
                 </div>
-                
+
                 <div id="user-list" class="list-container">
                     <!-- User list will be populated here -->
                 </div>
-                
+
                 <!-- Admin Management Section -->
                 <h3>Admin Management</h3>
-                
+
                 <div class="admin-actions">
                     <button id="show-add-admin" class="action-btn">+ Add Admin</button>
                 </div>
-                
+
                 <div id="add-admin-form-container" style="display: none;" class="add-admin-section">
                     <div class="form-inline">
                         <input type="text" id="admin-username" placeholder="Username">
@@ -62,14 +62,14 @@ function initializeApp() {
                         <button id="cancel-add-admin" class="action-btn">Cancel</button>
                     </div>
                 </div>
-                
+
                 <div id="admin-list" class="list-container">
                     <!-- Admin list will be populated here -->
                 </div>
             </div>
         </div>
     `;
-    
+
     const style = document.createElement('style');
     style.textContent = `
         .admin-container {
@@ -79,42 +79,42 @@ function initializeApp() {
             font-family: Arial, sans-serif;
             background-color: #fff;
         }
-        
+
         .admin-container h2 {
             color: #501214;
             margin-top: 0;
             text-align: center;
         }
-        
+
         .admin-container h3 {
             color: #501214;
             margin-top: 20px;
             margin-bottom: 10px;
         }
-        
+
         .section-desc {
             color: #666;
             margin-bottom: 15px;
             text-align: center;
         }
-        
+
         .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .user-greeting {
             font-size: 16px;
             font-weight: bold;
             color: #501214;
         }
-        
+
         #admin-username-display {
             font-style: italic;
         }
-        
+
         .admin-btn {
             background-color: #501214;
             color: white;
@@ -125,14 +125,14 @@ function initializeApp() {
             font-weight: bold;
             margin-top: 10px;
         }
-        
+
         .small-btn {
             background-color: #f5f5f5;
             border: 1px solid #ddd;
             padding: 5px 10px;
             cursor: pointer;
         }
-        
+
         .list-container {
             border: 1px solid #eee;
             padding: 10px;
@@ -141,7 +141,7 @@ function initializeApp() {
             overflow-y: auto;
             background-color: #fff;
         }
-        
+
         .user-item, .admin-item {
             padding: 10px;
             border-bottom: 1px solid #eee;
@@ -150,28 +150,28 @@ function initializeApp() {
             align-items: center;
             background-color: #fff;
         }
-        
+
         .user-item:last-child, .admin-item:last-child {
             border-bottom: none;
         }
-        
+
         .form-group {
             margin-bottom: 15px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: #333;
         }
-        
+
         input[type="text"], input[type="password"] {
             padding: 8px;
             border: 1px solid #ddd;
             box-sizing: border-box;
         }
-        
+
         .action-btn {
             background: none;
             border: 1px solid #ddd;
@@ -179,51 +179,51 @@ function initializeApp() {
             margin-left: 5px;
             cursor: pointer;
         }
-        
+
         .user-actions, .admin-actions {
             margin-bottom: 10px;
         }
-        
+
         .add-user-section, .add-admin-section {
             margin-bottom: 10px;
             padding: 10px;
             background-color: #f9f9f9;
             border: 1px solid #eee;
         }
-        
+
         .form-inline {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-        
+
         .form-inline input {
             flex: 1;
             min-width: 0;
         }
-        
+
         .message {
             padding: 10px;
             margin-bottom: 15px;
             border-radius: 4px;
         }
-        
+
         .message.error {
             background-color: #f8d7da;
             color: #721c24;
         }
-        
+
         .message.success {
             background-color: #d4edda;
             color: #155724;
         }
-        
+
         @media (max-width: 600px) {
             .form-inline {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .action-btn {
                 margin-left: 0;
                 margin-top: 5px;
@@ -231,7 +231,7 @@ function initializeApp() {
         }
     `;
     document.head.appendChild(style);
-    
+
     function showMessage(message, type = 'error') {
         const messageArea = document.getElementById('message-area');
         messageArea.innerHTML = `<div class="message ${type}">${message}</div>`;
@@ -241,12 +241,12 @@ function initializeApp() {
     function updateAdminList(admins) {
         const adminList = document.getElementById('admin-list');
         adminList.innerHTML = '';
-        
+
         if (admins.length === 0) {
             adminList.innerHTML = '<p style="text-align: center; color: #666;">No administrators found.</p>';
             return;
         }
-        
+
         admins.forEach(admin => {
             const adminItem = document.createElement('div');
             adminItem.className = 'admin-item';
@@ -264,23 +264,23 @@ function initializeApp() {
         try {
             const adminResponse = await fetch('/admin-check');
             const adminData = await adminResponse.json();
-            
+
             const adminUserIds = adminData.admin_user_ids || [];
-            
+
             const response = await fetch('/admin/users');
             const data = await response.json();
-            
+
             if (data.success) {
                 const userList = document.getElementById('user-list');
                 userList.innerHTML = '';
-                
+
                 const regularUsers = data.users.filter(user => !adminUserIds.includes(user.id));
-                
+
                 if (regularUsers.length === 0) {
                     userList.innerHTML = '<p style="text-align: center; color: #666;">No regular users found.</p>';
                     return;
                 }
-                
+
                 regularUsers.forEach(user => {
                     const userItem = document.createElement('div');
                     userItem.className = 'user-item';
@@ -304,7 +304,7 @@ function initializeApp() {
     }
 
 
-    
+
     async function handleLogin(event) {
         event.preventDefault();
         const form = event.target;
@@ -320,11 +320,11 @@ function initializeApp() {
 
             if (data.success) {
                 document.getElementById('admin-username-display').textContent = username;
-                
+
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
                 updateAdminList(data.admins);
-                updateUserList(); 
+                updateUserList();
                 showMessage('Login successful', 'success');
             } else {
                 showMessage(data.message || 'Invalid credentials');
@@ -337,12 +337,12 @@ function initializeApp() {
     async function handleAddUser() {
         const username = document.getElementById('new-username').value;
         const password = document.getElementById('new-password').value;
-        
+
         if (!username || !password) {
             showMessage('Username and password are required');
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
@@ -373,12 +373,12 @@ function initializeApp() {
     async function handleAddAdmin() {
         const username = document.getElementById('admin-username').value;
         const password = document.getElementById('admin-password').value;
-        
+
         if (!username || !password) {
             showMessage('Username and password are required');
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
@@ -430,12 +430,12 @@ function initializeApp() {
     async function handleLogout() {
         try {
             const response = await fetch('/admin/logout', {
-                method: 'POST',  
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
-    
+
             const data = await response.json();
-    
+
             if (data.success) {
                 document.getElementById('login-section').style.display = 'block';
                 document.getElementById('admin-panel').style.display = 'none';
@@ -500,26 +500,26 @@ function initializeApp() {
     document.getElementById('add-user-btn').addEventListener('click', handleAddUser);
     document.getElementById('add-admin-btn').addEventListener('click', handleAddAdmin);
     document.getElementById('logout-button').addEventListener('click', handleLogout);
-    
+
     // Toggle user form
     document.getElementById('show-add-user').addEventListener('click', function() {
         document.getElementById('add-user-form-container').style.display = 'block';
         this.style.display = 'none';
     });
-    
+
     document.getElementById('cancel-add-user').addEventListener('click', function() {
         document.getElementById('add-user-form-container').style.display = 'none';
         document.getElementById('show-add-user').style.display = 'inline-block';
         document.getElementById('new-username').value = '';
         document.getElementById('new-password').value = '';
     });
-    
+
     // Toggle admin form
     document.getElementById('show-add-admin').addEventListener('click', function() {
         document.getElementById('add-admin-form-container').style.display = 'block';
         this.style.display = 'none';
     });
-    
+
     document.getElementById('cancel-add-admin').addEventListener('click', function() {
         document.getElementById('add-admin-form-container').style.display = 'none';
         document.getElementById('show-add-admin').style.display = 'inline-block';
@@ -534,10 +534,10 @@ function initializeApp() {
             if (data.logged_in) {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
-                
+
                 // Display the admin username from session
                 document.getElementById('admin-username-display').textContent = data.admin_username || "admin";
-                
+
                 updateAdminList(data.admins);
                 updateUserList();
             }

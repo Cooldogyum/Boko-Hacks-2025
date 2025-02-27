@@ -12,7 +12,7 @@ function showToast(message, type = "success") {
 function getBalance() {
     const fundsElement = document.getElementById("funds");
     const balanceElement = document.getElementById("balance");
-    
+
     if (!fundsElement || !balanceElement) {
         console.error("Required DOM elements not found for getBalance()");
         return;
@@ -34,13 +34,13 @@ function getBalance() {
 
 function contribute() {
     const amountElement = document.getElementById("amount");
-    
+
     if (!amountElement) {
         console.error("Amount input element not found");
         showToast("Error: Contribution form not found", "error");
         return;
     }
-    
+
     let amount = parseFloat(amountElement.value);
 
     if (isNaN(amount) || amount <= 0) {
@@ -49,7 +49,7 @@ function contribute() {
     }
 
     showToast("Processing contribution...", "success");
-    
+
     fetch('/apps/401k/contribute', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,10 +62,10 @@ function contribute() {
         } else {
             showToast(data.message, "success");
         }
-        
+
         const fundsElement = document.getElementById("funds");
         const balanceElement = document.getElementById("balance");
-        
+
         if (fundsElement && balanceElement) {
             fundsElement.innerText = `$${data.funds}`;
             balanceElement.innerText = `$${data['401k_balance']}`;
@@ -85,7 +85,7 @@ function resetAccount() {
     }
 
     showToast("Processing reset request...", "success");
-    
+
     fetch('/apps/401k/reset', {
         method: "POST",
         headers: { "Content-Type": "application/json" }
@@ -93,10 +93,10 @@ function resetAccount() {
     .then(res => res.json())
     .then(data => {
         showToast(data.message, "success");
-        
+
         const fundsElement = document.getElementById("funds");
         const balanceElement = document.getElementById("balance");
-        
+
         if (fundsElement && balanceElement) {
             fundsElement.innerText = `$${data.funds}`;
             balanceElement.innerText = `$${data['401k_balance']}`;
@@ -110,7 +110,7 @@ function resetAccount() {
 
 function initializeApp() {
     console.log("401k app initialized");
-    
+
     // Look for the buttons by ID
     const contributeBtn = document.getElementById("contribute-btn");
     if (contributeBtn) {
@@ -119,7 +119,7 @@ function initializeApp() {
     } else {
         console.error("Contribute button not found");
     }
-    
+
     const resetBtn = document.getElementById("reset-btn");
     if (resetBtn) {
         resetBtn.addEventListener("click", resetAccount);
@@ -127,18 +127,18 @@ function initializeApp() {
     } else {
         console.error("Reset button not found");
     }
-    
+
     getBalance();
 }
 
 function cleanupApp() {
     console.log("401k app cleanup");
-    
+
     const contributeBtn = document.getElementById("contribute-btn");
     if (contributeBtn) {
         contributeBtn.removeEventListener("click", contribute);
     }
-    
+
     const resetBtn = document.getElementById("reset-btn");
     if (resetBtn) {
         resetBtn.removeEventListener("click", resetAccount);

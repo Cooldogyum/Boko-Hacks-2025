@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
-from models.user import User
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+
 from extensions import db
+from models.user import User
 
 register_bp = Blueprint("register", __name__)
+
 
 @register_bp.route("/register", methods=["GET", "POST"])
 def register():
@@ -32,4 +34,3 @@ def register():
         return redirect(url_for("login.login"))
 
     return render_template("register.html")
-

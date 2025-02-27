@@ -77,7 +77,7 @@ pip install -r requirements.txt
 python -c "from app import app, setup_database; app.app_context().push(); setup_database()"
 ```
 
-6. Start the application: 
+6. Start the application:
 ```bash
 python app.py
 ```

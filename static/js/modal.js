@@ -5,7 +5,7 @@ class AppModal {
         this.appContainer = document.getElementById('app-container');
         this.closeBtn = document.querySelector('.close-modal');
         this.currentApp = null;
-        
+
         this.appScripts = {
             'notes': { path: '/static/js/notes.js' },
             'upload': { path: '/static/files.js' },
@@ -14,13 +14,13 @@ class AppModal {
             'api': { path: '/static/js/api.js' },
             '401k': { path: '/static/js/401k.js' }
         };
-        
+
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
         this.closeBtn.addEventListener('click', () => this.closeModal());
-        
+
         window.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.closeModal();
@@ -40,10 +40,10 @@ class AppModal {
     async loadAppScript(appName) {
         const scriptInfo = this.appScripts[appName];
         const scriptPath = scriptInfo ? scriptInfo.path : `/static/js/${appName}.js`;
-        
+
         const existingScripts = document.querySelectorAll(`script[data-app-name="${appName}"]`);
         existingScripts.forEach(script => script.remove());
-        
+
         console.log(`Loading script: ${scriptPath}`);
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
@@ -59,23 +59,23 @@ class AppModal {
         console.log(`Opening app: ${appPath}`);
         this.modalTitle.textContent = title;
         this.currentApp = appPath;
-        
+
         try {
             this.cleanupPreviousApp();
-            
+
             const response = await fetch(`/apps/${appPath}`);
             if(!response.ok) throw new Error(`Failed to load ${appPath}`);
             const appContent = await response.text();
             this.appContainer.innerHTML = appContent;
-            
+
             this.appContainer.dataset.currentApp = appPath;
-            
+
             this.modal.style.display = 'block';
-            
+
             try {
                 await this.loadAppScript(appPath);
                 console.log(`Loaded ${appPath} script successfully`);
-                
+
                 if (typeof window.initializeApp === "function") {
                     console.log("Calling initializeApp function");
                     try {
@@ -99,13 +99,13 @@ class AppModal {
         console.log(`Closing modal for app: ${this.currentApp}`);
 
         this.cleanupPreviousApp();
-        
+
         this.modal.style.display = 'none';
         this.appContainer.innerHTML = '';
         this.appContainer.dataset.currentApp = '';
         this.currentApp = null;
     }
-    
+
     cleanupPreviousApp() {
         console.log("Cleaning up previous app...");
 
@@ -117,7 +117,7 @@ class AppModal {
                 console.error('Error in cleanupApp:', error);
             }
         }
-        
+
         window.initializeApp = undefined;
         window.cleanupApp = undefined;
     }

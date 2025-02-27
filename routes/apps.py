@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session
 
 apps_bp = Blueprint("apps", __name__)
 
+
 @apps_bp.route("/apps/<app_name>")
 def load_app(app_name):
     template_map = {
@@ -19,8 +20,8 @@ def load_app(app_name):
     if app_name == "admin":
         return render_template(
             "admin.html",
-            is_logged_in=session.get('admin_logged_in', False),
-            is_default_admin=session.get('is_default_admin', False)
+            is_logged_in=session.get("admin_logged_in", False),
+            is_default_admin=session.get("is_default_admin", False),
         )
 
     template_name = template_map.get(app_name)
