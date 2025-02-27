@@ -6,6 +6,7 @@ __pycache__/
 .venv
 artifacts/
 coverage-reports/
+instance/boko_hacks.db
 uploads/
 tools/
 venv
