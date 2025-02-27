@@ -14,15 +14,15 @@ from extensions import db
 from models.file import File
 from models.user import User
 
-ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
+ALLOWED_MIMETYPES = {"application/pdf", "image/png", "image/jpeg", "image/gif"}
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 files_bp = Blueprint("files", __name__, url_prefix="/apps/files")
 
 
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+def allowed_mimetype(mimetype):
+    return mimetype in ALLOWED_MIMETYPES
 
 
 @files_bp.route("/")
@@ -82,6 +82,10 @@ def upload_file():
         return jsonify({"success": False, "error": "No file part"}), 400
 
     if file:
+        if not allowed_mimetype(file.mimetype):
+            print(f"File type not allowed: {file.mimetype}")
+            return jsonify({"success": False, "error": "File type not allowed"}), 400
+
         filename = secure_filename(file.filename)
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         print(f"File path: {file_path}")
