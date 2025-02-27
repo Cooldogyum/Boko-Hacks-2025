@@ -162,6 +162,7 @@
             </div>
 
             <form id="note-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-header">
                     <span class="form-title">Create New Note</span>
                     <span class="beta-tag">BETA</span>
@@ -266,6 +267,7 @@
             const formData = new FormData();
             formData.append('title', title);
             formData.append('content', content);
+            formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
 
             fetch('/apps/notes/create', {
                 method: 'POST',
@@ -380,8 +382,12 @@
             if (confirm('Are you sure you want to delete this note?')) {
                 console.log('Deleting note:', noteId);
 
+                const csrfToken = document.querySelector('input[name="csrf_token"]').value;
                 fetch(`/apps/notes/delete/${noteId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
                 })
                 .then(response => {
                     console.log('Delete response status:', response.status);

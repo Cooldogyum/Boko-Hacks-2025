@@ -6,12 +6,6 @@ __pycache__/
 .venv
 artifacts/
 coverage-reports/
+uploads/
 tools/
 venv
-**/*.mpy
-
-# libs
-lib/rv3028*
-lib/adafruit*
-lib/asyncio*
-lib/neopixel.py

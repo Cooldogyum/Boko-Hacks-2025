@@ -7,6 +7,7 @@ function initializeApp() {
             <div id="login-section">
                 <h2>ADMIN LOGIN</h2>
                 <form id="admin-login-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" required>
@@ -346,6 +347,7 @@ function initializeApp() {
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
+        formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
 
         try {
             const response = await fetch('/admin/users/add', {
