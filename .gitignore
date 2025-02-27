@@ -1,5 +1,17 @@
 __pycache__/
-*.py[cod]
-*.pyc
-.venv/
-venv/
+.pytest_cache
+.coverage*
+.coverage-reports/
+.DS_Store
+.venv
+artifacts/
+coverage-reports/
+tools/
+venv
+**/*.mpy
+
+# libs
+lib/rv3028*
+lib/adafruit*
+lib/asyncio*
+lib/neopixel.py
