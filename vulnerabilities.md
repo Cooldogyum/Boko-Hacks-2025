@@ -26,4 +26,7 @@
 
 ## 401(k) Portal
 
+- Had a race condition
+- Not stored in database
+
 ## General
