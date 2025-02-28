@@ -34,7 +34,7 @@ INTERNAL_NEWS = [
     },
     {
         "title": "CONFIDENTIAL: Internal API Credentials",
-        "description": "API_KEY: 5x6hdPQmSK2aT9E3bL8nZ7yRfV4wX1  ADMIN_KEY: jKq2P8zX5sW7vT1yR4aB9nL6cE3hG",
+        "description": "Check the internal credential manager for the latest API keys and secrets.",
         "url": "#internal-only",
         "publishedAt": "2025-01-30T14:45:00Z",
         "urlToImage": "",

@@ -23,6 +23,7 @@
 
 - Had an SQL injection vulnerability when logging in
 - Had XSS vulnerabilities
+- Default admin credentials were hard coded
 
 ## 401(k) Portal
 
@@ -30,3 +31,5 @@
 - Not stored in database
 
 ## General
+
+- Flask secret key was hard coded
