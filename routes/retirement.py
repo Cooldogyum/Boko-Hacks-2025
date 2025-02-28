@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, render_template, request, session
 from models.retirement_account import RetirementAccount
 from models.user import User
 from extensions import db
+import logging
 
 retirement_bp = Blueprint("retirement", __name__, url_prefix="/apps/401k")
 
@@ -35,7 +36,8 @@ def get_balance():
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Failed to create account: {str(e)}"}), 500
+            logging.error(f"Failed to create account: {str(e)}")
+            return jsonify({"error": "Failed to create account"}), 500
         
     return jsonify(account.to_dict())
 
@@ -64,7 +66,8 @@ def contribute():
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Failed to create account: {str(e)}"}), 500
+            logging.error(f"Failed to create account: {str(e)}")
+            return jsonify({"error": "Failed to create account"}), 500
     
     if amount <= 0:
         return jsonify({
@@ -97,7 +100,8 @@ def contribute():
         })
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": f"Transaction failed: {str(e)}"}), 500
+        logging.error(f"Transaction failed: {str(e)}")
+        return jsonify({"error": "Transaction failed"}), 500
 
 
 @retirement_bp.route("/reset", methods=["POST"])
