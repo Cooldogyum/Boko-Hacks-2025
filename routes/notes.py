@@ -211,7 +211,15 @@ def delete_note(note_id):
 
 @notes_bp.route("/debug")
 def debug_database():
-    """Debug route to check database contents"""
+    """Debug route to check database contents - Fixed information disclosure"""
+    # Fix: Add admin-only check
+    if "user" not in session:
+        return jsonify({"success": False, "error": "Not logged in"}), 401
+
+    current_user = User.query.filter_by(username=session["user"]).first()
+    if not current_user or not current_user.is_admin():
+        return jsonify({"success": False, "error": "Unauthorized"}), 403
+
     try:
         users = User.query.all()
         print("\nAll Users:")
