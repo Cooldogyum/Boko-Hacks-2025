@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import inspect
 
 from extensions import db
@@ -19,6 +20,9 @@ from routes.retirement import retirement_bp
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
+
+csrf = CSRFProtect()
+csrf.init_app(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///boko_hacks.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -71,4 +75,4 @@ def setup_database():
 
 if __name__ == "__main__":
     setup_database()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)

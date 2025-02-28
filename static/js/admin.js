@@ -7,6 +7,7 @@ function initializeApp() {
             <div id="login-section">
                 <h2>ADMIN LOGIN</h2>
                 <form id="admin-login-form">
+                    <input type="hidden" name="csrf_token" id="login-csrf-token" value="">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" required>
@@ -310,10 +311,17 @@ function initializeApp() {
         const form = event.target;
         const formData = new FormData(form);
         const username = formData.get("username");
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+
+        // Update the form data with the latest token
+        formData.set("csrf_token", csrfToken);
 
         try {
             const response = await fetch('/admin', {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             });
             const data = await response.json();
@@ -343,13 +351,18 @@ function initializeApp() {
             return;
         }
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
+        formData.append('csrf_token', csrfToken);
 
         try {
             const response = await fetch('/admin/users/add', {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             });
             const data = await response.json();
@@ -379,13 +392,18 @@ function initializeApp() {
             return;
         }
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
+        formData.append('csrf_token', csrfToken);
 
         try {
             const response = await fetch('/admin/add', {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             });
             const data = await response.json();
@@ -409,9 +427,13 @@ function initializeApp() {
     window.removeAdmin = async function(adminId) {
         if (!confirm('Are you sure you want to remove this admin?')) return;
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         try {
             const response = await fetch(`/admin/remove/${adminId}`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
             });
             const data = await response.json();
 
@@ -428,10 +450,14 @@ function initializeApp() {
 
     // Handle logout
     async function handleLogout() {
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         try {
             const response = await fetch('/admin/logout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
             });
 
             const data = await response.json();
@@ -452,9 +478,13 @@ function initializeApp() {
     window.deleteUser = async function(userId) {
         if (!confirm('Are you sure you want to delete this user?')) return;
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         try {
             const response = await fetch(`/admin/users/${userId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
             });
             const data = await response.json();
 
@@ -474,13 +504,18 @@ function initializeApp() {
         const newPassword = prompt('Enter new password:');
         if (!newPassword) return;
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         try {
             const formData = new FormData();
             formData.append('user_id', userId);
             formData.append('new_password', newPassword);
+            formData.append('csrf_token', csrfToken);
 
             const response = await fetch('/admin/users/reset-password', {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             });
             const data = await response.json();

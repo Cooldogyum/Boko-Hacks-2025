@@ -117,6 +117,7 @@
         </div>
 
         <form id="file-upload-form" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="file" name="file" id="file" accept="application/pdf, image/png, image/jpeg, image/jpg, image/gif" required>
             <div class="allowed-types">
                 <strong>Allowed file types:</strong> .pdf, .png, .jpg, .jpeg, .gif

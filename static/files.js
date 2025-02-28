@@ -156,8 +156,12 @@ function handleDelete(e) {
     console.log(`Delete button clicked for file ID: ${fileId}`);
 
     if (confirm('Are you sure you want to delete this file?')) {
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         fetch(`/apps/files/delete/${fileId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
         })
         .then(response => response.json())
         .then(data => {
