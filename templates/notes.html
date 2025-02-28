@@ -269,8 +269,12 @@
             formData.append('content', content);
             formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
 
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
             fetch('/apps/notes/create', {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             })
             .then(response => response.json())

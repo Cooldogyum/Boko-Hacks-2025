@@ -60,8 +60,13 @@ function saveNote() {
     formData.append('title', title);
     formData.append('content', content);
 
+    // Add CSRF token to headers
+    const csrfToken = document.querySelector('input[name="csrf_token"]').value;
     fetch('/apps/notes/create', {
         method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         body: formData
     })
     .then(response => {
@@ -172,8 +177,12 @@ function deleteNote(noteId) {
     if (confirm('Are you sure you want to delete this note?')) {
         console.log('Deleting note:', noteId);
 
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         fetch(`/apps/notes/delete/${noteId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
         })
         .then(response => {
             console.log('Delete response status:', response.status);
