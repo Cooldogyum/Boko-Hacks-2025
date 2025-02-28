@@ -164,7 +164,6 @@ wheels = [
 ]
 
 [[package]]
-<<<<<<< HEAD
 name = "circuitpy-flight-software"
 version = "2.0.0"
 source = { virtual = "." }
@@ -232,8 +231,6 @@ requires-dist = [
 ]
 
 [[package]]
-=======
->>>>>>> 6d803fdc91dfaaeaa769239558a783ed4bfd5451
 name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
