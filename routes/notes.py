@@ -171,7 +171,7 @@ def search_notes():
 
 @notes_bp.route("/delete/<int:note_id>", methods=["DELETE"])
 def delete_note(note_id):
-    """Delete a note with intentional access control vulnerability"""
+    """Delete a note - Fixed access control vulnerability"""
     if "user" not in session:
         return jsonify({"success": False, "error": "Not logged in"}), 401
 
@@ -186,6 +186,13 @@ def delete_note(note_id):
             return jsonify(
                 {"success": False, "error": f"Note with ID {note_id} not found"}
             ), 404
+
+        # Fix: Add proper authorization check
+        if note.user_id != current_user.id and not current_user.is_admin():
+            print(
+                f"Unauthorized deletion attempt of note {note_id} by user {current_user.id}"
+            )
+            return jsonify({"success": False, "error": "Unauthorized"}), 403
 
         print(
             f"Deleting note ID: {note_id}, Title: {note.title}, Owner: {note.user_id}"

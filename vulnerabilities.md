@@ -20,6 +20,11 @@
 - routes/notes.py@search_notes
   - Had an SQL injection vulnerability
 
+**Route `/apps/notes/delete/<note>`**
+
+- routes/notes.py@delete_note
+  - Had an access control vulnerability allowing anyone to delete each others notes
+
 **Notes `/apps/notes`**
 
 - Notes had various XSS vulnerabilities
