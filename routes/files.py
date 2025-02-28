@@ -103,13 +103,19 @@ def upload_file():
             file.save(file_path)
             print(f"File saved successfully at {file_path}")
 
-            is_public = request.form.get("public", "false").lower() == "true"
+            is_public = request.form.get("public", "off").lower() == "on"
             new_file = File(
                 filename=filename,
                 file_path=file_path,
                 user_id=current_user.id,
                 public=is_public,
             )
+
+            # Set password if provided
+            file_password = request.form.get("password", None)
+            if file_password:
+                new_file.set_password(file_password)
+
             db.session.add(new_file)
             db.session.commit()
             print(f"File record saved to database with ID: {new_file.id}")
@@ -177,7 +183,7 @@ def delete_file(file_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-@files_bp.route("/download/<int:file_id>")
+@files_bp.route("/download/<int:file_id>", methods=["GET", "POST"])
 def download_file(file_id):
     """Download a file using send_from_directory for maximum compatibility"""
     print(f"\n=== FILE DOWNLOAD ATTEMPT: ID {file_id} ===")
@@ -200,6 +206,26 @@ def download_file(file_id):
                 f"Access denied: File {file_id} belongs to user {file.user_id}, not {current_user.id}"
             )
             return jsonify({"success": False, "error": "Access denied"}), 403
+
+        # Check if the file is password protected
+        if file.password:
+            if request.method == "GET":
+                print("Password required, showing password form")
+                # Return a form to enter the password instead of an error
+                return render_template(
+                    "file_password.html",
+                    file_id=file_id,
+                    filename=file.filename
+                ), 200
+            else:
+                provided_password = request.form.get("password")
+                if not provided_password or not file.check_password(provided_password):
+                    return render_template(
+                        "file_password.html",
+                        file_id=file_id,
+                        filename=file.filename,
+                        error="Incorrect password"
+                    ), 403
 
         # Get the directory and filename
         directory = os.path.dirname(file.file_path)

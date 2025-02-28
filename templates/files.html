@@ -125,6 +125,10 @@
                 <label for="public">Make Public:</label>
                 <input type="checkbox" name="public">
             </div>
+            <div>
+                <label for="public">Password Protect?</label>
+                <input type="password" name="password" placeholder="Enter password">
+            </div>
             <button type="submit">Upload File</button>
         </form>
     </div>
@@ -139,6 +143,7 @@
                         <strong>{{ file.filename }}</strong>
                         <div>Uploaded: {{ file.uploaded_at }}</div>
                         <div>Public: {{ file.public }}</div>
+                        <div>Password Protected: {{ 'Yes' if file.password else 'No' }}</div>
                     </div>
                     <div class="file-actions">
                         <button class="download-btn" onclick="window.open('/apps/files/download/{{ file.id }}', '_blank')">Download</button>
