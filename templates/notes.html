@@ -287,24 +287,24 @@
 
                     const noteElement = document.createElement('div');
                     noteElement.className = 'note-card';
-                    
+
                     const titleElm = document.createElement('h3');
                     titleElm.textContent = note.title;
-                    
+
                     const contentElm = document.createElement('div');
                     contentElm.className = 'note-content';
                     contentElm.textContent = note.content;
-                    
+
                     const metaElm = document.createElement('div');
                     metaElm.className = 'note-meta';
                     metaElm.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
-                    
+
                     const deleteBtn = document.createElement('button');
                     deleteBtn.type = 'button';
                     deleteBtn.className = 'delete-btn';
                     deleteBtn.textContent = 'Delete';
                     deleteBtn.setAttribute('data-note-id', note.id);
-                    
+
                     metaElm.appendChild(deleteBtn);
                     noteElement.appendChild(titleElm);
                     noteElement.appendChild(contentElm);
@@ -354,31 +354,31 @@
                         data.notes.forEach(note => {
                             const noteElement = document.createElement('div');
                             noteElement.className = 'note-card';
-                            
+
                             const titleEl = document.createElement('h3');
                             titleEl.textContent = note.title;
-                            
+
                             const contentEl = document.createElement('div');
                             contentEl.className = 'note-content';
                             contentEl.textContent = note.content;
-                            
+
                             const metaEl = document.createElement('div');
                             metaEl.className = 'note-meta';
                             metaEl.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
-                            
+
                             const deleteBtn = document.createElement('button');
                             deleteBtn.type = 'button';
                             deleteBtn.className = 'delete-btn';
                             deleteBtn.textContent = 'Delete';
                             deleteBtn.setAttribute('data-note-id', note.id);
-                            
+
                             metaEl.appendChild(deleteBtn);
                             noteElement.appendChild(titleEl);
                             noteElement.appendChild(contentEl);
                             noteElement.appendChild(metaEl);
-                            
+
                             notesList.appendChild(noteElement);
-                            
+
                             deleteBtn.addEventListener('click', function() {
                                 const noteId = this.getAttribute('data-note-id');
                                 deleteNote(noteId);

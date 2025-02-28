@@ -82,7 +82,7 @@ def fetch_news():
                         articles = INTERNAL_NEWS + articles
                     else:
                         print("Admin not logged in, skipping internal news")
-                        
+
             except json.JSONDecodeError:
                 print(f"Invalid filter parameter: {filter_param}")
 

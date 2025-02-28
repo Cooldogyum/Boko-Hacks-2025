@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from extensions import db
 from models.user import User
@@ -36,4 +36,6 @@ def register():
         flash("Registration successful! You can now log in.", "success")
         return redirect(url_for("login.login"))
 
-    return render_template("register.html", HCAPTCHA_SITE_KEY=os.environ.get("HCAPTCHA_SITE_KEY"))
+    return render_template(
+        "register.html", HCAPTCHA_SITE_KEY=os.environ.get("HCAPTCHA_SITE_KEY")
+    )

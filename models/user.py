@@ -18,7 +18,7 @@ class User(db.Model):
     def check_password(self, password) -> bool:
         """Compares hashed password to user-provided password."""
         return check_password_hash(self.password_hash, password)
-        
+
     def is_admin(self) -> bool:
         """Check if user has admin privileges."""
         return Admin.query.filter_by(user_id=self.id).first() is not None

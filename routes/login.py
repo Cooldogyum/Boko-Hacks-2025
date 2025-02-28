@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
@@ -30,7 +31,9 @@ def login():
         else:
             flash("Invalid username or password.", "error")
 
-    return render_template("login.html", HCAPTCHA_SITE_KEY=os.environ.get("HCAPTCHA_SITE_KEY"))
+    return render_template(
+        "login.html", HCAPTCHA_SITE_KEY=os.environ.get("HCAPTCHA_SITE_KEY")
+    )
 
 
 @login_bp.route("/logout")

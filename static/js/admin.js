@@ -234,15 +234,15 @@ function initializeApp() {
 
     function showMessage(message, type = 'error') {
         const messageArea = document.getElementById('message-area');
-        
+
         messageArea.textContent = '';
-        
+
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}`;
         messageDiv.textContent = message;
-        
+
         messageArea.appendChild(messageDiv);
-        
+
         setTimeout(() => messageArea.innerHTML = '', 5000);
     }
 
@@ -267,7 +267,7 @@ function initializeApp() {
                 smallEl.textContent = ' (Default Admin)';
                 adminNameSpan.appendChild(smallEl);
             }
-            
+
             adminItem.appendChild(adminNameSpan);
 
             if (admin[2]) {
@@ -282,10 +282,10 @@ function initializeApp() {
                 removeBtn.addEventListener('click', function() {
                     removeAdmin(admin[0]);
                 });
-                
+
                 adminItem.appendChild(removeBtn);
             }
-            
+
             adminList.appendChild(adminItem);
         });
     }
@@ -317,7 +317,7 @@ function initializeApp() {
 
                     const usernameSpan = document.createElement('span');
                     usernameSpan.textContent = user.username;
-                    userItem.appendChild(usernameSpan);                    
+                    userItem.appendChild(usernameSpan);
 
                     const buttonsDiv = document.createElement('div');
 
@@ -336,11 +336,11 @@ function initializeApp() {
                     deleteBtn.addEventListener('click', function() {
                         deleteUser(user.id);
                     });
-                    
+
                     buttonsDiv.appendChild(resetBtn);
                     buttonsDiv.appendChild(deleteBtn);
                     userItem.appendChild(buttonsDiv);
-                    
+
                     userList.appendChild(userItem);
                 });
             } else {

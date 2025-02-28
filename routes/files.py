@@ -85,7 +85,7 @@ def upload_file():
         if not allowed_mimetype(file.mimetype):
             print(f"File type not allowed: {file.mimetype}")
             return jsonify({"success": False, "error": "File type not allowed"}), 400
-        
+
         # Check file size
         file.seek(0, os.SEEK_END)
         file_length = file.tell()
@@ -105,7 +105,10 @@ def upload_file():
 
             is_public = request.form.get("public", "false").lower() == "true"
             new_file = File(
-                filename=filename, file_path=file_path, user_id=current_user.id, public=is_public
+                filename=filename,
+                file_path=file_path,
+                user_id=current_user.id,
+                public=is_public,
             )
             db.session.add(new_file)
             db.session.commit()
