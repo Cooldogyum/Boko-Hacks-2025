@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
   <title>Login - BokoHacks</title>
 </head>
 <body>
@@ -38,7 +39,13 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
+        <div class="h-captcha" data-sitekey="{{ HCAPTCHA_SITE_KEY }}"></div>
+        <input type="hidden" id="h-captcha-response" name="h-captcha-response">
+        <script>
+          document.addEventListener('hcaptcha-verified', function (event) {
+            document.getElementById('h-captcha-response').value = event.detail.response;
+          });
+        </script>
         <button type="submit">Login</button>
       </form>
       <p>Don't have an account? <a href="/register">Register here</a>.</p>

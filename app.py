@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask
 from sqlalchemy import inspect
 
@@ -7,7 +8,6 @@ from extensions import db
 from routes.about import about_bp
 from routes.admin import admin_bp, init_admin_db
 from routes.apps import apps_bp
-from routes.captcha import captcha_bp
 from routes.files import files_bp
 from routes.home import home_bp
 from routes.hub import hub_bp
@@ -17,8 +17,10 @@ from routes.notes import notes_bp
 from routes.register import register_bp
 from routes.retirement import retirement_bp
 
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = os.environ.get("SECRET_KEY", "fallback_secret_key_dev")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///boko_hacks.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -38,7 +40,6 @@ app.register_blueprint(apps_bp)
 app.register_blueprint(notes_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(files_bp)
-app.register_blueprint(captcha_bp)
 app.register_blueprint(news_bp)
 app.register_blueprint(retirement_bp)
 
