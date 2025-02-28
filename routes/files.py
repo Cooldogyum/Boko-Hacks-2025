@@ -59,7 +59,7 @@ def files():
 
 @files_bp.route("/upload", methods=["POST"])
 def upload_file():
-    """Handle file upload with intentional vulnerability"""
+    """Handle file upload with fixed upload folder and allowed file types"""
     print("\n=== FILE UPLOAD ATTEMPT ===")
     print(f"Request method: {request.method}")
     print(f"Form data: {request.form}")
@@ -103,8 +103,9 @@ def upload_file():
             file.save(file_path)
             print(f"File saved successfully at {file_path}")
 
+            is_public = request.form.get("public", "false").lower() == "true"
             new_file = File(
-                filename=filename, file_path=file_path, user_id=current_user.id
+                filename=filename, file_path=file_path, user_id=current_user.id, public=is_public
             )
             db.session.add(new_file)
             db.session.commit()
@@ -190,6 +191,12 @@ def download_file(file_id):
     try:
         file = File.query.get_or_404(file_id)
         print(f"Found file {file_id}: {file.filename}")
+
+        if not file.public and file.user_id != current_user.id:
+            print(
+                f"Access denied: File {file_id} belongs to user {file.user_id}, not {current_user.id}"
+            )
+            return jsonify({"success": False, "error": "Access denied"}), 403
 
         # Get the directory and filename
         directory = os.path.dirname(file.file_path)

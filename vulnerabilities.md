@@ -21,6 +21,7 @@
 
 - Failed to validate file types
 - Max file sizes weren't enforced
+- Files did not have access control
 
 ## Admin Portal
 
