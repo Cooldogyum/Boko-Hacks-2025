@@ -3,6 +3,8 @@
 ## Company News
 
 - Had XSS vulnerabilities
+- Internal news was publicly accessible
+- Internal news leaked secret keys
 
 ## Notes App
 
