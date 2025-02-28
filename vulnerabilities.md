@@ -15,6 +15,11 @@
 - routes/notes.py@notes
   - Allowed any user to view each others notes
 
+**Route `/apps/notes/search?q=<query>`**
+
+- routes/notes.py@search_notes
+  - Had an SQL injection vulnerability
+
 **Notes `/apps/notes`**
 
 - Notes had various XSS vulnerabilities
