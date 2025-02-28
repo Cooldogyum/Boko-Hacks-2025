@@ -1,39 +1,29 @@
-# Vulnerabilities
+# Fixed Vulnerabilities
 
-**Route `/apps/files/upload`**
+## Company News
 
-- routes/files.py@upload_file
-  - Failed to validate file types
+- Had XSS vulnerabilities
 
-**Route `/apps/admin`**
+## Notes App
 
-- routes/admin.py@admin
-  - Had an SQL injection vulnerability
-- static/js/admin.js
-  - Had XSS vulnerabilities
-
-**Route `/apps/notes/?user_id=<id>`**
-
-- routes/notes.py@notes
+- Had access control vulnerabilities:
   - Allowed any user to view each others notes
+  - Allowed any user to delete each other's notes
+- Had information disclosure vulnerabilities:
+  - Non-Admins could access the debug route
+- Had an SQL injection vulnerability when searching notes
+- Had XSS vulnerabilities
+- Failed to enforce max content lengths
 
-**Route `/apps/notes/search?q=<query>`**
+## Document Upload
 
-- routes/notes.py@search_notes
-  - Had an SQL injection vulnerability
+- Failed to validate file types
 
-**Route `/apps/notes/delete/<note>`**
+## Admin Portal
 
-- routes/notes.py@delete_note
-  - Had an access control vulnerability allowing anyone to delete each others notes
+- Had an SQL injection vulnerability when logging in
+- Had XSS vulnerabilities
 
-**Route `/apps/notes/debug`**
+## 401(k) Portal
 
-- routes/notes.py@debug_database
-  - Had an information disclosure vulnerability allowing non-admins to view data
-
-
-**Notes `/apps/notes`**
-
-- Notes had various XSS vulnerabilities
-- Notes did not have max lengths enforced
+## General
