@@ -63,6 +63,32 @@ def create_note():
     try:
         print(f"Creating note - Title: {title}, Content: {content}")
 
+        # Validate title and content length
+        max_title_length = 100
+        max_content_length = 5000
+
+        if len(title) > max_title_length:
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "error": f"Title exceeds maximum length of {max_title_length} characters",
+                    }
+                ),
+                400,
+            )
+
+        if len(content) > max_content_length:
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "error": f"Content exceeds maximum length of {max_content_length} characters",
+                    }
+                ),
+                400,
+            )
+
         note = Note(
             title=title,
             content=content,

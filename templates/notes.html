@@ -166,8 +166,8 @@
                     <span class="form-title">Create New Note</span>
                     <span class="beta-tag">BETA</span>
                 </div>
-                <input type="text" name="title" id="note-title" placeholder="Enter title (supports custom formatting)" required>
-                <textarea name="content" id="note-content" placeholder="Enter your note content here. Pro tip: You can use special characters for formatting!" required></textarea>
+                <input type="text" name="title" id="note-title" placeholder="Enter title" required maxlength="100">
+                <textarea name="content" id="note-content" placeholder="Enter your note content here" required maxlength="5000"></textarea>
                 <div class="format-hint">Need formatting help? Try using special characters!</div>
                 <button type="submit">Save Note</button>
             </form>
@@ -253,8 +253,8 @@
                 return;
             }
 
-            const title = titleInput.value;
-            const content = contentInput.value;
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
 
             if (!title || !content) {
                 showMessage('error', 'Title and content are required');
@@ -334,7 +334,7 @@
         }
 
         function searchNotes() {
-            const query = document.getElementById('search').value;
+            const query = document.getElementById('search').value.trim();
             console.log('Searching for:', query);
 
             fetch(`/apps/notes/search?q=${encodeURIComponent(query)}`)

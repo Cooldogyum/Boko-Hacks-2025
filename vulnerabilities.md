@@ -18,3 +18,4 @@
 **Notes `/apps/notes`**
 
 - Notes had various XSS vulnerabilities
+- Notes did not have max lengths enforced
