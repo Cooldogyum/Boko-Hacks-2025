@@ -118,6 +118,11 @@
     </style>
 </head>
 <body>
+    <!-- Add CSRF token -->
+    <form id="csrf-form" style="display: none;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    </form>
+
     <div class="retirement-dashboard">
         <h2>401(k) Retirement Plan</h2>
         <p>Secure your future with employer-matched retirement contributions.</p>

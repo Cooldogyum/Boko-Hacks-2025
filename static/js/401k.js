@@ -32,6 +32,10 @@ function getBalance() {
         });
 }
 
+function getCsrfToken() {
+    return document.querySelector('#csrf-form input[name="csrf_token"]').value;
+}
+
 function contribute() {
     const amountElement = document.getElementById("amount");
 
@@ -52,7 +56,10 @@ function contribute() {
 
     fetch('/apps/401k/contribute', {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken()
+        },
         body: JSON.stringify({ amount: amount })
     })
     .then(res => res.json())
@@ -88,7 +95,10 @@ function resetAccount() {
 
     fetch('/apps/401k/reset', {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken()
+        }
     })
     .then(res => res.json())
     .then(data => {
