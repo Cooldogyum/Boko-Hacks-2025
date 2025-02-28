@@ -561,7 +561,6 @@ wheels = [
 ]
 
 [[package]]
-<<<<<<< HEAD
 name = "python-dotenv"
 version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -580,8 +579,6 @@ wheels = [
 ]
 
 [[package]]
-=======
->>>>>>> 6d803fdc91dfaaeaa769239558a783ed4bfd5451
 name = "pyyaml"
 version = "6.0.2"
 source = { registry = "https://pypi.org/simple" }
