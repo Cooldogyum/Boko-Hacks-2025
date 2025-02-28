@@ -20,6 +20,7 @@
 ## Document Upload
 
 - Failed to validate file types
+- Max file sizes weren't enforced
 
 ## Admin Portal
 
