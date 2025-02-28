@@ -28,6 +28,10 @@ test: .venv ## Run tests
 	@$(UV) run coverage html --rcfile=pyproject.toml > /dev/null
 	@$(UV) run coverage xml --rcfile=pyproject.toml > /dev/null
 
+.PHONY: run
+run: .venv ## Run the application
+	$(UV) run app.py
+
 .PHONY: clean
 clean: ## Remove all gitignored files such as downloaded libraries and artifacts
 	git clean -dfX
