@@ -36,3 +36,4 @@
 ## General
 
 - Flask secret key was hard coded
+- Captcha was hard-coded & wasn't on /login: Added hCaptcha

@@ -1,21 +1,21 @@
-from PIL import Image, ImageDraw, ImageFont
+import os
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-def generate_captcha(text: str = None, width: int = 200, height: int = 80) -> Image:
-    image = Image.new("RGB", (width, height), (255, 255, 255))
-    draw = ImageDraw.Draw(image)
+def verify_hcaptcha(captcha_response, remote_addr):
+    if not captcha_response:
+        return False
 
-    draw.rectangle([0, 0, width - 1, height - 1], outline=(200, 200, 200))
+    secret_key = os.environ.get("HCAPTCHA_SECRET_KEY")
+    data = {
+        "secret": secret_key,
+        "response": captcha_response,
+        "remoteip": remote_addr,
+    }
+    response = requests.post("https://hcaptcha.com/siteverify", data=data)
+    result = response.json()
 
-    font = ImageFont.load_default()
-
-    text_bbox = draw.textbbox((0, 0), text, font=font)
-    text_width = text_bbox[2] - text_bbox[0]
-    text_height = text_bbox[3] - text_bbox[1]
-
-    x = (width - text_width) // 2 - text_bbox[0]
-    y = (height - text_height) // 2 - text_bbox[1]
-
-    draw.text((x, y), text, font=font, fill=(0, 0, 0))
-
-    return image
+    return result.get("success", False)

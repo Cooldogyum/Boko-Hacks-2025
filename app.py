@@ -8,7 +8,6 @@ from extensions import db
 from routes.about import about_bp
 from routes.admin import admin_bp, init_admin_db
 from routes.apps import apps_bp
-from routes.captcha import captcha_bp
 from routes.files import files_bp
 from routes.home import home_bp
 from routes.hub import hub_bp
@@ -41,7 +40,6 @@ app.register_blueprint(apps_bp)
 app.register_blueprint(notes_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(files_bp)
-app.register_blueprint(captcha_bp)
 app.register_blueprint(news_bp)
 app.register_blueprint(retirement_bp)
 
