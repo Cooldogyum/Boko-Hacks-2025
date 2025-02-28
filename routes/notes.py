@@ -1,8 +1,8 @@
 from datetime import datetime
 
+import bleach  # Add this import for XSS protection
 from flask import Blueprint, jsonify, render_template, request, session
 from sqlalchemy import text
-import bleach  # Add this import for XSS protection
 
 from extensions import db
 from models.note import Note
@@ -122,7 +122,7 @@ def create_note():
 
 @notes_bp.route("/search")
 def search_notes():
-    """Search notes - Fixed SQL injection vulnerability"""
+    """Search notes - Fixed SQL injection vulnerability and user access control"""
     if "user" not in session:
         return jsonify({"success": False, "error": "Not logged in"}), 401
 
@@ -134,9 +134,13 @@ def search_notes():
     print(f"Search query: {query}")
 
     try:
-        # Fix: Use parameterized query instead of string formatting to prevent SQL injection
-        sql = text("SELECT * FROM notes WHERE title LIKE :query OR content LIKE :query")
-        result = db.session.execute(sql, {"query": f"%{query}%"})
+        # Fix: Use parameterized query and add user_id filter for proper access control
+        sql = text(
+            "SELECT * FROM notes WHERE (title LIKE :query OR content LIKE :query) AND user_id = :user_id"
+        )
+        result = db.session.execute(
+            sql, {"query": f"%{query}%", "user_id": current_user.id}
+        )
 
         notes = []
         for row in result:
