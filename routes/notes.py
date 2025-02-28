@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, render_template, request, session
 from sqlalchemy import text
+import bleach  # Add this import for XSS protection
 
 from extensions import db
 from models.note import Note
@@ -42,7 +43,7 @@ def notes():
 
 @notes_bp.route("/create", methods=["POST"])
 def create_note():
-    """Create a new note - Intentionally vulnerable to XSS"""
+    """Create a new note - Fixed XSS vulnerability"""
     if "user" not in session:
         return jsonify({"success": False, "error": "Not logged in"}), 401
 
@@ -50,8 +51,9 @@ def create_note():
     if not current_user:
         return jsonify({"success": False, "error": "User not found"}), 404
 
-    title = request.form.get("title")
-    content = request.form.get("content")
+    # Fix: Sanitize user input to prevent XSS
+    title = bleach.clean(request.form.get("title", ""))
+    content = bleach.clean(request.form.get("content", ""))
 
     if not title or not content:
         return jsonify(

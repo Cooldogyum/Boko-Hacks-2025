@@ -14,3 +14,7 @@
 
 - routes/notes.py@notes
   - Allowed any user to view each others notes
+
+**Notes `/apps/notes`**
+
+- Notes had various XSS vulnerabilities

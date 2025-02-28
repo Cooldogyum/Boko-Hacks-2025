@@ -78,24 +78,37 @@ function saveNote() {
 
             const notesList = document.getElementById('notes-list');
             const note = data.note;
-            const noteHtml = `
-                <div class="note-card">
-                    <h3>${note.title}</h3>
-                    <div class="note-content">${note.content}</div>
-                    <div class="note-meta">
-                        ID: ${note.id} | Created: ${note.created_at}
-                        <button type="button" class="delete-note" data-note-id="${note.id}">Delete</button>
-                    </div>
-                </div>
-            `;
-            notesList.insertAdjacentHTML('afterbegin', noteHtml);
-
-            const newDeleteButton = notesList.querySelector(`.delete-note[data-note-id="${note.id}"]`);
-            if (newDeleteButton) {
-                newDeleteButton.addEventListener('click', function() {
-                    deleteNote(note.id);
-                });
-            }
+            
+            const noteElement = document.createElement('div');
+            noteElement.className = 'note-card';
+            
+            const titleEl = document.createElement('h3');
+            titleEl.textContent = note.title;
+            
+            const contentEl = document.createElement('div');
+            contentEl.className = 'note-content';
+            contentEl.textContent = note.content;
+            
+            const metaEl = document.createElement('div');
+            metaEl.className = 'note-meta';
+            metaEl.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'delete-note';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.setAttribute('data-note-id', note.id);
+            
+            metaEl.appendChild(deleteBtn);
+            noteElement.appendChild(titleEl);
+            noteElement.appendChild(contentEl);
+            noteElement.appendChild(metaEl);
+            
+            notesList.insertBefore(noteElement, notesList.firstChild);
+            
+            deleteBtn.addEventListener('click', function() {
+                deleteNote(note.id);
+            });
         } else {
             console.error('Error saving note:', data.error || 'Unknown error');
             alert('Error saving note. Please try again.');
@@ -137,21 +150,33 @@ function searchNotes() {
             data.notes.forEach(note => {
                 const noteElement = document.createElement('div');
                 noteElement.className = 'note-card';
-                noteElement.innerHTML = `
-                    <h3>${note.title}</h3>
-                    <div class="note-content">${note.content}</div>
-                    <div class="note-meta">
-                        ID: ${note.id} | Created: ${note.created_at}
-                        <button type="button" class="delete-note" data-note-id="${note.id}">Delete</button>
-                    </div>
-                `;
+                
+                const titleEl = document.createElement('h3');
+                titleEl.textContent = note.title;
+                
+                const contentEl = document.createElement('div');
+                contentEl.className = 'note-content';
+                contentEl.textContent = note.content;
+                
+                const metaEl = document.createElement('div');
+                metaEl.className = 'note-meta';
+                metaEl.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'delete-note';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.setAttribute('data-note-id', note.id);
+                
+                metaEl.appendChild(deleteBtn);
+                noteElement.appendChild(titleEl);
+                noteElement.appendChild(contentEl);
+                noteElement.appendChild(metaEl);
+                
                 notesList.appendChild(noteElement);
-            });
-
-            document.querySelectorAll('.delete-note').forEach(button => {
-                button.addEventListener('click', function() {
-                    const noteId = this.getAttribute('data-note-id');
-                    deleteNote(noteId);
+                
+                deleteBtn.addEventListener('click', function() {
+                    deleteNote(note.id);
                 });
             });
         } else {

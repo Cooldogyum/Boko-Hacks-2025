@@ -180,8 +180,8 @@
             <div id="notes-list">
                 {% for note in notes %}
                 <div class="note-card">
-                    <h3>{{ note.title | safe }}</h3>
-                    <div class="note-content">{{ note.content | safe }}</div>
+                    <h3>{{ note.title }}</h3>
+                    <div class="note-content">{{ note.content }}</div>
                     <div class="note-meta">
                         ID: {{ note.id }} | Created: {{ note.created_at }}
                         <button type="button" class="delete-btn" data-note-id="{{ note.id }}">Delete</button>
@@ -287,14 +287,28 @@
 
                     const noteElement = document.createElement('div');
                     noteElement.className = 'note-card';
-                    noteElement.innerHTML = `
-                        <h3>${note.title}</h3>
-                        <div class="note-content">${note.content}</div>
-                        <div class="note-meta">
-                            ID: ${note.id} | Created: ${note.created_at}
-                            <button type="button" class="delete-btn" data-note-id="${note.id}">Delete</button>
-                        </div>
-                    `;
+                    
+                    const titleElm = document.createElement('h3');
+                    titleElm.textContent = note.title;
+                    
+                    const contentElm = document.createElement('div');
+                    contentElm.className = 'note-content';
+                    contentElm.textContent = note.content;
+                    
+                    const metaElm = document.createElement('div');
+                    metaElm.className = 'note-meta';
+                    metaElm.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.setAttribute('data-note-id', note.id);
+                    
+                    metaElm.appendChild(deleteBtn);
+                    noteElement.appendChild(titleElm);
+                    noteElement.appendChild(contentElm);
+                    noteElement.appendChild(metaElm);
 
                     const noNotes = notesList.querySelector('p');
                     if (noNotes && noNotes.textContent.includes('No notes found')) {
@@ -303,13 +317,10 @@
 
                     notesList.insertBefore(noteElement, notesList.firstChild);
 
-                    const deleteBtn = noteElement.querySelector('.delete-btn');
-                    if (deleteBtn) {
-                        deleteBtn.addEventListener('click', function() {
-                            const noteId = this.getAttribute('data-note-id');
-                            deleteNote(noteId);
-                        });
-                    }
+                    deleteBtn.addEventListener('click', function() {
+                        const noteId = this.getAttribute('data-note-id');
+                        deleteNote(noteId);
+                    });
 
                     console.log('Note added successfully');
                 } else {
@@ -343,19 +354,32 @@
                         data.notes.forEach(note => {
                             const noteElement = document.createElement('div');
                             noteElement.className = 'note-card';
-                            noteElement.innerHTML = `
-                                <h3>${note.title}</h3>
-                                <div class="note-content">${note.content}</div>
-                                <div class="note-meta">
-                                    ID: ${note.id} | Created: ${note.created_at}
-                                    <button type="button" class="delete-btn" data-note-id="${note.id}">Delete</button>
-                                </div>
-                            `;
+                            
+                            const titleEl = document.createElement('h3');
+                            titleEl.textContent = note.title;
+                            
+                            const contentEl = document.createElement('div');
+                            contentEl.className = 'note-content';
+                            contentEl.textContent = note.content;
+                            
+                            const metaEl = document.createElement('div');
+                            metaEl.className = 'note-meta';
+                            metaEl.textContent = `ID: ${note.id} | Created: ${note.created_at} `;
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.className = 'delete-btn';
+                            deleteBtn.textContent = 'Delete';
+                            deleteBtn.setAttribute('data-note-id', note.id);
+                            
+                            metaEl.appendChild(deleteBtn);
+                            noteElement.appendChild(titleEl);
+                            noteElement.appendChild(contentEl);
+                            noteElement.appendChild(metaEl);
+                            
                             notesList.appendChild(noteElement);
-                        });
-
-                        document.querySelectorAll('.delete-btn').forEach(button => {
-                            button.addEventListener('click', function() {
+                            
+                            deleteBtn.addEventListener('click', function() {
                                 const noteId = this.getAttribute('data-note-id');
                                 deleteNote(noteId);
                             });
