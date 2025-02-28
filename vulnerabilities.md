@@ -9,3 +9,8 @@
 
 - routes/admin.py@admin
   - Had an SQL injection vulnerability
+
+**Route `/apps/notes/?user_id=<id>`**
+
+- routes/notes.py@notes
+  - Allowed any user to view each others notes

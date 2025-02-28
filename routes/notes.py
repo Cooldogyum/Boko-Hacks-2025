@@ -24,6 +24,9 @@ def notes():
 
     try:
         user_id = int(user_id)
+        # Fix: Add access control - only allow viewing own notes or admin access
+        if user_id != current_user.id and not current_user.is_admin():
+            return jsonify({"success": False, "error": "Unauthorized access"}), 403
     except (TypeError, ValueError):
         user_id = current_user.id
 
