@@ -9,6 +9,8 @@
 
 - routes/admin.py@admin
   - Had an SQL injection vulnerability
+- static/js/admin.js
+  - Had XSS vulnerabilities
 
 **Route `/apps/notes/?user_id=<id>`**
 
