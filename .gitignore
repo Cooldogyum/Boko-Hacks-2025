@@ -6,12 +6,7 @@ __pycache__/
 .venv
 artifacts/
 coverage-reports/
+instance/boko_hacks.db
+uploads/
 tools/
 venv
-**/*.mpy
-
-# libs
-lib/rv3028*
-lib/adafruit*
-lib/asyncio*
-lib/neopixel.py
