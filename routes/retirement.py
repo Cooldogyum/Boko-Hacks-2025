@@ -128,7 +128,8 @@ def reset_account():
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": f"Failed to reset account: {str(e)}"}), 500
+        logging.error(f"Failed to reset account: {str(e)}")
+        return jsonify({"error": "Failed to reset account"}), 500
 
     return jsonify({
         "message": "Account reset successfully!",
